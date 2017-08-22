@@ -13,10 +13,15 @@ import time
 
 url = 'https://www.mql5.com/zh/trading'
 driver = webdriver.Safari()
-driver.implicitly_wait(10)
 driver.get(url)
-
+driver.switch_to.frame('webTerminalHost')
 try:
-    print(driver.page_source)
-except:
-    pass
+    element = WebDriverWait(driver, 15).until(
+        EC.presence_of_element_located((By.ID, 'GBPUSD'))
+    )
+    money_element_lst = driver.find_elements_by_tag_name('tbody')
+    for every in money_element_lst:
+        print(every)
+
+finally:
+    driver.quit()
